@@ -1,39 +1,55 @@
-export type ScalarOperationType = (first: number, second: number) => number;
+import {
+  sin,
+  cos,
+  tan,
+  fib,
+  add,
+  minus,
+  mul,
+  div,
+  exp,
+  square,
+  fact,
+  ScalarOperationType,
+  UnarOperationType,
+} from "./mathFunctions";
 
-export const mul: ScalarOperationType = (
-  first: number,
-  second: number
-): number => first * second;
+enum MathOperator {
+  ADD = "+",
+  MINUS = "-",
+  MULT = "*",
+  DIV = "/",
+  POWER = "^",
+  SQUARE = "**",
+  FACT = "!",
+  SIN = "sin",
+  COS = "cos",
+  TAN = "tan",
+  FIB = "fib",
+}
 
-export const div: ScalarOperationType = (
-  first: number,
-  second: number
-): number => first / second;
-
-export const add: ScalarOperationType = (
-  first: number,
-  second: number
-): number => first + second;
-
-export const minus: ScalarOperationType = (
-  first: number,
-  second: number
-): number => first - second;
-
-export const mathOperators: { [key: string]: ScalarOperationType } = {
-  "*": mul,
-  "/": div,
-  "+": add,
-  "-": minus,
+export const mathOperators: {
+  [key: string]: ScalarOperationType | UnarOperationType;
+} = {
+  [MathOperator.ADD]: add,
+  [MathOperator.MINUS]: minus,
+  [MathOperator.MULT]: mul,
+  [MathOperator.DIV]: div,
+  [MathOperator.POWER]: exp,
+  [MathOperator.SQUARE]: square,
+  [MathOperator.FACT]: fact,
+  [MathOperator.SIN]: sin,
+  [MathOperator.COS]: cos,
+  [MathOperator.TAN]: tan,
+  [MathOperator.FIB]: fib,
 };
 
-export const mathPriorities: number[] = [1, 2];
+export const priorities: Array<Array<string>> = [
+  [MathOperator.SQUARE, MathOperator.FACT],
+  [MathOperator.SIN, MathOperator.COS, MathOperator.TAN, MathOperator.FIB],
+  [MathOperator.POWER],
+  [MathOperator.MULT, MathOperator.DIV],
+  [MathOperator.ADD, MathOperator.MINUS],
+];
 
-const [FIRST, SECOND] = mathPriorities;
-
-export const mathOperatorsPriorities: { [key: string]: number } = {
-  "*": FIRST,
-  "/": FIRST,
-  "+": SECOND,
-  "-": SECOND,
-};
+export const [unarOperators, trigOperators] = priorities;

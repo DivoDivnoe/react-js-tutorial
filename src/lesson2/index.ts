@@ -7,20 +7,21 @@ const rl = createInterface({
   output: process.stdout,
 });
 
-const question = (): Promise<null> =>
-  new Promise((resolve) => {
+const question = (): Promise<void> => {
+  return new Promise((resolve) => {
     rl.question("> ", (answer: string) => {
       const result = runner(answer);
 
-      if (result) {
+      if (isFinite(result)) {
         console.log(`Result: ${result}`);
       }
 
       resolve();
     });
   });
+};
 
-async function app(): Promise<null> {
+async function app(): Promise<void> {
   while (true) {
     await question();
   }
